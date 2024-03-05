@@ -1,0 +1,12 @@
+#!name=Blued-FreeShop
+#!desc=小蓝主播商城自动兑换
+#!system=ios
+
+[Script]
+Blued_主播商城Cookie处理_开播 = type=http-request,requires-body=0,max-size=0,pattern=https://live.blued.cn/live/start,script-path=https://raw.githubusercontent.com/hubuminister/surge/main/scripts/blued/Blued-FreeShop-CookieHelper.js
+Blued_主播商城Cookie处理_下播 = type=http-request,requires-body=0,max-size=0,pattern=https://live.blued.cn/live/room/close,script-path=https://raw.githubusercontent.com/hubuminister/surge/main/scripts/blued/Blued-FreeShop-CookieHelper.js
+Blued_主播商城Cookie处理_奖池 = type=http-request,requires-body=0,max-size=0,pattern=https://activity.blued.cn/hd/2020/free-shop/get-pool,script-path=https://raw.githubusercontent.com/hubuminister/surge/main/scripts/blued/Blued-FreeShop-CookieHelper.js
+Blued_主播商城_自动兑换 = ,script-path=https://raw.githubusercontent.com/hubuminister/surge/main/scripts/blued/Blued-FreeShop.js,timeout=120,type=cron,cronexp=0 0,4,8,12,16,20 * * *
+
+[MITM]
+hostname = %APPEND% live.blued.cn,activity.blued.cn

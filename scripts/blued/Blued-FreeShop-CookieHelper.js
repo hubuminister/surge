@@ -1,14 +1,34 @@
-const scriptName = "Blued-FreeShop";
-const logLevel = "INFO";
+const scriptName = "Blued-FreeShop-CookieHelper";
 
-let magicJS = MagicJS(scriptName, logLevel);
+let magicJS = MagicJS(scriptName);
+
+const cookieKey = "Blued-FreeShop-Cookie";
+
 
 (async () => {
-    magicJS.logInfo("获取Cookie");
-    magicJS.logInfo(JSON.stringify(magicJS.request.headers));
-    magicJS.write("bluedCookie", magicJS.request.headers.Cookie);
-    magicJS.notify("Blued-FreeShop", "获取Cookie成功", "请手动执行一次任务");
-    magicJS.done();
+    switch (magicJS.request.url) {
+        case "https://live.blued.cn/live/start"://开播
+        case 'https://live.blued.cn/live/room/close'://下播
+            if (magicJS.read(cookieKey)) {//有Cookie
+                magicJS.del(cookieKey);
+            }
+            break;
+
+        case 'https://activity.blued.cn/hd/2020/free-shop/get-pool'://获取奖池
+            magicJS.logInfo("获取奖池");
+            if (!magicJS.read(cookieKey)) {//无Cookie则获取Cookie
+                magicJS.write(cookieKey, magicJS.request.headers.Cookie);
+                magicJS.notify("Blued-FreeShop-CookieHelper", "获取Cookie成功", "获取Cookie成功");
+            }
+            break;
+        default:
+            break;
+    }
+    if (magicJS.request.body) {
+        magicJS.done({ body: magicJS.request.body });//直接执行
+    } else {
+        magicJS.done();//直接执行
+    }
 })();
 
 
