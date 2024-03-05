@@ -8,6 +8,7 @@ let magicJS = MagicJS(scriptName, logLevel);
     magicJS.logInfo(JSON.stringify(magicJS.request.headers));
     magicJS.write("bluedCookie", magicJS.request.headers.Cookie);
     magicJS.notify("Blued-FreeShop", "获取Cookie成功", "请手动执行一次任务");
+    magicJS.done();
 })();
 
 
